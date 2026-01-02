@@ -1,0 +1,271 @@
+/* Reset - the Universal Selector.  By default, different browsers (Chrome, Safari, Firefox) add their own random amounts of margin and padding to elements. 
+Developers use the universal selector to "zero out" everything so the site looks the same everywhere.*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+ 
+:root {
+    /* Define colors for easy modification and consistency */
+    --color-bg-dark: #121212;      /* Deep background */
+    --color-card-grey: #1e1e1e;    /* Slightly lighter card background */
+    --color-pulse-blue: #00d4ff;   /* Neon/Light blue for the pulse */
+    --color-text-light: #e0e0e0;
+    --font-body: 'Arial', sans-serif;
+}
+
+/* Body */
+/* The Pattern: The first linear-gradient creates a line that is 50% transparent and 50% slightly darker black.
+background-size: 100% 4px: This is the magic part. It tells that first gradient to be only 4 pixels high and repeat vertically. This creates the "horizontal line" effect across the whole screen.
+Subtlety: I set the opacity to 0.1. Scanlines look best when you can barely see them. If they are too dark, they make the text hard to read and cause "eye strain." */
+body {
+    /* 1. The Scanline Pattern (repeating every 4px) */
+    /* 2. The Top Glow */
+    /* 3. The Bottom Glow + Base Dark Color */
+    background: 
+        linear-gradient(
+            rgba(18, 16, 16, 0) 50%, 
+            rgba(0, 0, 0, 0.1) 50%
+        ),
+        radial-gradient(circle at 50% 0%, #1a2a33 0%, transparent 50%),
+        radial-gradient(circle at 50% 100%, #16242b 0%, #121212 100%);
+    
+    /* This makes the scanlines 4px tall */
+    background-size: 100% 4px, 100% 100%, 100% 100%;
+    
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: white;
+    margin: 0;
+}
+
+/* Hero section */
+.hero {
+    background: #1a1a1a; /* Dark grey hero */
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 1px solid #333;
+}
+ 
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: var(--color-pulse-blue); /* Ensuring it uses your light blue */
+    
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+}
+ 
+@keyframes pulse-glow {
+    from {
+        /* Fainter, smaller glow */
+        text-shadow: 
+            0 0 4px rgba(0, 179, 244, 0.4),
+            0 0 10px rgba(0, 179, 244, 0.2);
+    }
+    to {
+        /* Brighter, larger glow */
+        text-shadow: 
+            0 0 8px rgba(0, 179, 244, 0.9),
+            0 0 20px rgba(0, 179, 244, 0.6),
+            0 0 30px rgba(0, 179, 244, 0.4);
+    }
+}
+
+/* Sections */
+section {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    color: white;
+}
+ 
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    text-align: center;
+    color: var(--color-pulse-blue);
+    animation: pulse-glow 3s ease-in-out infinite alternate;
+   
+}
+ 
+/* Skills grid */
+.skill-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+ 
+.skill-card {
+    position: relative;
+    background: #222; /* Dark grey inside */
+    color: #00b3f4;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    font-family: "Google Sans Code", monospace;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* This clips the animation so it stays on the border */
+    z-index: 0;
+}
+
+/* The "Neon" Light Layer */
+.skill-card::before {
+    content: '';
+    position: absolute;
+    width: 150%; /* Larger than the card to ensure corners are covered */
+    height: 150%;
+    /* This creates the light blue "streak" */
+    background: conic-gradient(transparent, #00b3f4, transparent 30%);
+    animation: rotate-neon 4s linear infinite;
+    z-index: -2;
+}
+
+/* The Dark Mask (Creates the "Border" look) */
+.skill-card::after {
+    content: '';
+    position: absolute;
+    inset: 3px; /* This thickness determines the border width */
+    background: #1a1a1b; /* Matches your dark grey theme */
+    border-radius: 5px;
+    z-index: -1;
+}
+
+.skill-card:hover {
+    transform: scale(1.05);
+}
+
+/* The Rotation Animation */
+@keyframes rotate-neon {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+ 
+/* Contact button */
+.contact-btn {
+    display: inline-block;
+    background: #00b3f4;
+    color: #1e1e1e;
+    padding: 12px 20px;
+    margin-top: 10px;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+ 
+.contact-btn:hover {
+    background: #00d4ff;
+}
+ 
+.audiowide-regular {
+  font-family: "Audiowide", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.google-sans-code {
+  font-family: "Google Sans Code", monospace;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+main, .main-content { 
+    min-height: calc(100vh - 400px); 
+}
+
+.marquee-container {
+    width: 100%;
+    overflow: hidden; /* Hides logos as they exit the screen */
+    background: #1a1a1a;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    padding: 20px 0;
+    display: flex;
+
+    /* This creates the smooth fade-in/fade-out at the edges */
+    -webkit-mask-image: linear-gradient(
+        to right, 
+        rgba(0,0,0,0) 0%, 
+        rgba(0,0,0,1) 15%, 
+        rgba(0,0,0,1) 85%, 
+        rgba(0,0,0,0) 100%
+    );
+    mask-image: linear-gradient(
+        to right, 
+        rgba(0,0,0,0) 0%, 
+        rgba(0,0,0,1) 15%, 
+        rgba(0,0,0,1) 85%, 
+        rgba(0,0,0,0) 100%
+    );
+}
+
+.marquee-content {
+    display: flex;
+    width: max-content; /* Important: makes container as wide as all logos */
+    animation: scroll-left 40s linear infinite;
+}
+
+.logo-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 0 40px; /* Space between logos */
+    color: white;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+
+.logo-item img {
+    height: 40px; /* Adjust size as needed */
+    filter: drop-shadow(0 0 5px rgba(0, 212, 255, 0.5)); /* Adds a tiny neon glow to logos */
+}
+
+/* The Scrolling Animation */
+@keyframes scroll-left {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        /* Because we have 2 identical sets, moving -50% 
+           puts the start of the 2nd set exactly where the 1st started. */
+        transform: translateX(-50%);
+    }
+}
+
+.audiowide-regular {
+  font-family: "Audiowide", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.google-sans-code {
+  font-family: "Google Sans Code", monospace;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+/* Footer */
+footer {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    background: #222; 
+    color: #00d4ff;
+    padding: 15px;
+    /* This ensures it clears any floats and sits at the very bottom */
+    clear: both; 
+}
